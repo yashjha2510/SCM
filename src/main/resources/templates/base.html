@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+      class="light"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="parent(content,title)">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Tailwind -->
+    <link rel="stylesheet" th:href="@{/css/output.css}">
+
+    <!-- Flowbite -->
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet"/>
+
+    <title th:replace="${title}">SCM</title>
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+
+<!-- Navbar -->
+<header th:replace="navbar :: navbar"></header>
+
+<!-- Main Content -->
+<main class="max-w-screen-xl mx-auto p-6 mt-1">
+    <div th:replace="${content}"></div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-200 dark:bg-gray-800 text-center p-4 mt-10">
+    this is footer
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+<script th:src="@{'/js/script.js'}"></script>
+</body>
+</html>

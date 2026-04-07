@@ -1,0 +1,85 @@
+<nav th:fragment="navbar" class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
+
+        <!-- Logo -->
+        <a th:href="@{/home}" class="flex items-center space-x-3">
+            <img th:src="@{/images/phone-solid-full.svg}" class="h-6" alt="logo">
+            <span class="text-lg font-semibold whitespace-nowrap text-gray-900 dark:text-white">
+                SCM
+            </span>
+        </a>
+
+
+        <!-- Login Signup -->
+        <div class="flex md:order-2 gap-3">
+
+            <!-- theme change button -->
+            <button id="theme-toggle" class="flex items-center gap-2 
+bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700
+font-medium rounded-lg text-sm px-4 py-2">
+
+                <img th:src="@{/images/circle-half-stroke-solid-full.svg}"
+                    class="w-5 h-5 dark:brightness-0 dark:invert" />
+
+                <span>Light</span>
+
+            </button>
+
+            <a th:href="@{/login}"
+                class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-4 py-2">
+                Login
+            </a>
+
+            <a th:href="@{/register}"
+                class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-4 py-2">
+                Signup
+            </a>
+
+            <button data-collapse-toggle="navbar-sticky" type="button"
+                class="inline-flex items-center p-2 w-10 h-10 justify-center text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none">
+
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+
+            </button>
+
+        </div>
+
+        <!-- Menu -->
+        <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+
+            <ul class="flex flex-col md:flex-row md:items-center md:gap-8 font-medium">
+
+                <li>
+                    <a th:href="@{/home}" class="block py-2 px-3 text-gray-900 dark:text-gray-200 hover:text-blue-600">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/about}" class="block py-2 px-3 text-gray-900 dark:text-gray-200 hover:text-blue-600">
+                        About
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/services}"
+                        class="block py-2 px-3 text-gray-900 dark:text-gray-200 hover:text-blue-600">
+                        Services
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/contact}"
+                        class="block py-2 px-3 text-gray-900 dark:text-gray-200 hover:text-blue-600">
+                        Contact
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+</nav>
