@@ -1,14 +1,16 @@
 package com.scm.services;
 
 import java.util.List;
+import java.util.Optional;
+
 import com.scm.entities.User;
 
 public interface UserService {
     User saveUser(User user);
-    User getUserById(String id);
+    Optional<User> getUserById(String id);
     void deleteUser(String id);
-    User updateUser(User user);
+    Optional<User> updateUser(User user);
     boolean isUserExists(String userId);
     boolean isUserExistsByEmail(String email);
-    list<User> getAllUsers();
+    List<User> getAllUsers();
 }
