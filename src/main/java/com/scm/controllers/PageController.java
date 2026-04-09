@@ -3,6 +3,7 @@ package com.scm.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.scm.helpers.MessageType;
 import com.scm.services.UserService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 
 
@@ -71,8 +73,14 @@ public class PageController {
 
     // processing register
     @PostMapping("/do-register")
-    public String processRegister(@ModelAttribute UserForm userForm, Model model, HttpSession session) {
+    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult bindingResult, Model model, HttpSession session) {
         System.out.println("processing registration");
+
+        // validate form
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("userForm", userForm);
+            return "register";
+        }
 
         if (userService.isUserExistsByEmail(userForm.getEmail())) {
             model.addAttribute("errorMessage", "Email is already registered.");
