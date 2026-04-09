@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.scm.entities.Providers;
 import com.scm.entities.User;
 import com.scm.helpers.ResourceNotFoundException;
 import com.scm.repositories.UserRepo;
@@ -26,9 +27,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
+        if (userRepo.findByEmail(user.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email is already registered: " + user.getEmail());
+        }
+
         // have to generate user id
         String userId = UUID.randomUUID().toString(); 
         user.setUserId(userId);
+        if (user.getProvider() == null) {
+            user.setProvider(Providers.self);
+        }
         // password encode when needed
         // user.setPassword(userId);
         

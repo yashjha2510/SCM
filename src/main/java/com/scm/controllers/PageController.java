@@ -4,12 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.scm.entities.User;
 import com.scm.forms.UserForm;
+import com.scm.helpers.Message;
+import com.scm.helpers.MessageType;
 import com.scm.services.UserService;
+
+import jakarta.servlet.http.HttpSession;
 
 
 
@@ -66,22 +70,33 @@ public class PageController {
     }
 
     // processing register
-    @RequestMapping(value = "/do-register", method=RequestMethod.POST)
-    public String processRegister(@ModelAttribute UserForm userForm) {
+    @PostMapping("/do-register")
+    public String processRegister(@ModelAttribute UserForm userForm, Model model, HttpSession session) {
         System.out.println("processing registration");
+
+        if (userService.isUserExistsByEmail(userForm.getEmail())) {
+            model.addAttribute("errorMessage", "Email is already registered.");
+            model.addAttribute("userForm", userForm);
+            return "register";
+        }
         
-        // user form to user entity
-        User user = User.builder()
-        .name(userForm.getName())
-        .email(userForm.getEmail())
-        .password(userForm.getPassword())
-        .phoneNum(userForm.getPhoneNumber())
-        .about(userForm.getAbout())
-        .profilePic("https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740&q=80")
-        .build();
+        User user = new User();
+        user.setName(userForm.getName());
+        user.setEmail(userForm.getEmail());
+        user.setPassword(userForm.getPassword());
+        user.setPhoneNum(userForm.getPhoneNumber());
+        user.setAbout(userForm.getAbout());
+        user.setProfilePic("https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740&q=80");
 
         User saveduser = userService.saveUser(user);
         System.out.println("saved user: " + saveduser);
+
+        // building the message
+        Message message = Message.builder().content("Registration successful! Please ").type(MessageType.blue).build();
+
+        // add the message
+        session.setAttribute("message", message);
+        
         return "redirect:/register";
     }
 }

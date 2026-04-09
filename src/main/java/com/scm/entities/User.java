@@ -6,11 +6,14 @@ import jakarta.annotation.Generated;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,15 +46,29 @@ public class User {
     private String phoneNum;
 
     // information
+    @Builder.Default
     private boolean enabled = false;
+    @Builder.Default
     private boolean emailVerified = false;
+    @Builder.Default
     private boolean phoneVerified = false;
 
     // login through
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    @Builder.Default
     private Providers provider = Providers.self;
     private String providerUserId;
 
+    @Builder.Default
     @OneToMany(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
     private List<Contact> contacts = new ArrayList<>();
+
+    @PrePersist
+    public void ensureProvider() {
+        if (provider == null) {
+            provider = Providers.self;
+        }
+    }
     
 }
